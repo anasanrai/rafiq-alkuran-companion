@@ -1,6 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { PhoneShell } from "@/components/PhoneShell";
+import { EightStar, OrnateDivider, PatternBackdrop } from "@/components/Ornaments";
+import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,54 +26,97 @@ function LoginScreen() {
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // UI-only mock: navigate after a beat
-    setTimeout(() => navigate({ to: "/today" }), 600);
+    setTimeout(() => navigate({ to: "/today" }), 700);
   };
 
   return (
     <PhoneShell>
-      <div className="absolute inset-0 flex flex-col px-7 pt-16 pb-10">
-        {/* Logo */}
-        <div className="flex flex-col items-center pt-10">
-          <div
-            className="relative h-28 w-28 rounded-full flex items-center justify-center mb-6"
-            style={{
-              background:
-                "radial-gradient(circle, oklch(0.78 0.13 85 / 0.25) 0%, transparent 70%)",
-            }}
-          >
+      <div className="absolute inset-0 flex flex-col px-7 pt-20 pb-10 overflow-hidden">
+        {/* Ambient gold glow */}
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle, oklch(0.78 0.13 85 / 0.18) 0%, transparent 60%)",
+          }}
+        />
+
+        {/* Pattern backdrop */}
+        <div className="absolute inset-0 text-gold opacity-[0.06] pointer-events-none">
+          <PatternBackdrop />
+        </div>
+
+        {/* Floating geometric stars */}
+        <EightStar
+          size={140}
+          className="absolute top-32 -right-12 text-gold opacity-[0.08] animate-float"
+        />
+        <EightStar
+          size={100}
+          className="absolute bottom-40 -left-8 text-gold opacity-[0.06] animate-float"
+        />
+
+        {/* Logo block */}
+        <div className="relative flex flex-col items-center pt-6 animate-fade-up">
+          <div className="relative h-32 w-32 flex items-center justify-center mb-8">
+            <EightStar
+              size={128}
+              className="absolute inset-0 text-gold opacity-30 animate-pulse-gold"
+            />
+            <div
+              className="absolute inset-3 rounded-full"
+              style={{
+                background:
+                  "radial-gradient(circle, oklch(0.78 0.13 85 / 0.35) 0%, transparent 70%)",
+              }}
+            />
             <span
-              className="text-7xl"
-              style={{ filter: "drop-shadow(0 0 20px oklch(0.78 0.13 85 / 0.7))" }}
+              className="relative text-7xl"
+              style={{ filter: "drop-shadow(0 0 24px oklch(0.78 0.13 85 / 0.8))" }}
             >
               📿
             </span>
           </div>
+
           <h1
-            className="font-arabic text-5xl text-gold gold-text-glow leading-none"
+            className="font-arabic text-[56px] leading-none gold-text-shimmer"
             dir="rtl"
           >
             رفيق القرآن
           </h1>
-          <p className="mt-3 text-lg tracking-[0.25em] text-gold-soft uppercase">
+          <p className="mt-4 font-display text-2xl tracking-[0.18em] text-gold-soft uppercase">
             Rafiq Al-Quran
           </p>
-          <p className="mt-3 text-sm text-muted-sage text-center max-w-[260px] leading-relaxed">
-            Your spiritual companion at every prayer
+
+          <OrnateDivider className="mt-6 w-48" />
+
+          <p className="mt-5 text-[13px] text-muted-sage text-center max-w-[280px] leading-relaxed font-display italic">
+            Your spiritual companion
+            <br />
+            at every prayer
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSend} className="mt-auto space-y-4">
+        <form
+          onSubmit={handleSend}
+          className="relative mt-auto space-y-4 animate-fade-up"
+          style={{ animationDelay: "0.2s" }}
+        >
           <div>
-            <label className="block text-[11px] uppercase tracking-[0.18em] text-muted-sage mb-2">
+            <label className="block text-[10px] uppercase tracking-[0.28em] text-gold-deep mb-2.5 text-center font-display">
               Phone · رقم الجوال
             </label>
             <div
-              className="flex items-center rounded-2xl border border-border bg-input px-4 py-3.5"
-              style={{ background: "oklch(0.20 0.025 155)" }}
+              className="flex items-center rounded-2xl border border-border/80 px-4 py-4 backdrop-blur-sm"
+              style={{
+                background:
+                  "linear-gradient(180deg, oklch(0.22 0.028 155 / 0.7), oklch(0.18 0.024 155 / 0.7))",
+                boxShadow:
+                  "inset 0 1px 0 0 oklch(0.78 0.13 85 / 0.15), 0 4px 16px -4px rgba(0,0,0,0.4)",
+              }}
             >
-              <span className="text-gold-soft font-medium pr-3 border-r border-border mr-3">
+              <span className="text-gold font-semibold pr-3 border-r border-gold/30 mr-3 tracking-wide">
                 +966
               </span>
               <input
@@ -80,7 +125,7 @@ function LoginScreen() {
                 placeholder="5X XXX XXXX"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="flex-1 bg-transparent outline-none text-foreground placeholder:text-muted-sage/50"
+                className="flex-1 bg-transparent outline-none text-foreground placeholder:text-muted-sage/40 tracking-wider"
               />
             </div>
           </div>
@@ -88,16 +133,31 @@ function LoginScreen() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-2xl py-4 font-semibold tracking-wide bg-gradient-gold text-primary-foreground gold-glow active:scale-[0.98] transition-transform disabled:opacity-60"
+            className="group relative w-full rounded-2xl py-4 font-semibold tracking-wider text-primary-foreground gold-glow-strong active:scale-[0.98] transition-all overflow-hidden disabled:opacity-70"
           >
-            {loading ? "..." : "Send OTP · إرسال الرمز"}
+            <span className="absolute inset-0 bg-gradient-gold-shine" />
+            <span className="relative flex items-center justify-center gap-3 text-[15px]">
+              {loading ? (
+                <span className="font-arabic text-lg" dir="rtl">جارٍ الإرسال...</span>
+              ) : (
+                <>
+                  <span>Send OTP</span>
+                  <span className="opacity-50">·</span>
+                  <span className="font-arabic text-lg" dir="rtl">إرسال الرمز</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </>
+              )}
+            </span>
           </button>
 
-          <p className="text-center text-[10px] tracking-wide text-muted-sage/80 leading-relaxed mt-6">
-            No fatwas · No opinions
-            <br />
-            Quran + Tafsir + Sahih Hadith only
-          </p>
+          <div className="pt-4">
+            <OrnateDivider />
+            <p className="text-center text-[10px] tracking-[0.18em] text-muted-sage/80 leading-relaxed mt-4 uppercase font-display">
+              No fatwas · No opinions
+              <br />
+              Quran + Tafsir + Sahih Hadith only
+            </p>
+          </div>
         </form>
       </div>
     </PhoneShell>
