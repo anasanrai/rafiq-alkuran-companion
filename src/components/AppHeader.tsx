@@ -10,21 +10,30 @@ export function AppHeader({
   right?: React.ReactNode;
 }) {
   return (
-    <header className="px-6 pt-12 pb-5 flex items-start justify-between gap-3">
-      <div className="flex-1 text-right">
-        <h1 className="font-arabic text-3xl text-gold leading-tight gold-text-glow" dir="rtl">
-          {arabic}
-        </h1>
-        {english && (
-          <p className="text-xs uppercase tracking-[0.18em] text-muted-sage mt-1">{english}</p>
-        )}
-        {subtitle && (
-          <p className="text-[10px] uppercase tracking-[0.22em] text-muted-sage/80 mt-1">
-            {subtitle}
-          </p>
-        )}
+    <header className="relative px-6 pt-14 pb-4 animate-fade-up">
+      {/* Gradient hero glow */}
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-hero pointer-events-none" />
+      <div className="relative flex items-start justify-between gap-3">
+        <div className="flex-1 text-right">
+          <h1
+            className="font-arabic text-[34px] leading-tight gold-text-shimmer"
+            dir="rtl"
+          >
+            {arabic}
+          </h1>
+          {english && (
+            <p className="text-[10px] uppercase tracking-[0.32em] text-gold-deep mt-1.5 font-display">
+              {english}
+            </p>
+          )}
+          {subtitle && (
+            <p className="text-[10px] uppercase tracking-[0.18em] text-muted-sage mt-1">
+              {subtitle}
+            </p>
+          )}
+        </div>
+        {right}
       </div>
-      {right}
     </header>
   );
 }
