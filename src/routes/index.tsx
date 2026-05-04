@@ -79,7 +79,7 @@ function LoginScreen() {
           </div>
 
           <h1
-            className="font-arabic text-[56px] leading-none gold-text-shimmer"
+            className="font-arabic text-[48px] leading-none gold-text-shimmer whitespace-nowrap"
             dir="rtl"
           >
             رفيق القرآن
