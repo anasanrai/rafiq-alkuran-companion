@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppLayout } from "@/components/AppLayout";
 import { AppHeader } from "@/components/AppHeader";
 import { OrnateDivider, EightStar } from "@/components/Ornaments";
+import { Tasbih } from "@/components/Tasbih";
 import { LogOut, ChevronRight, Shield } from "lucide-react";
 
 export const Route = createFileRoute("/profile")({
@@ -77,6 +78,9 @@ function ProfileScreen() {
             </div>
           </div>
         </div>
+
+        {/* Tasbih */}
+        <Tasbih />
 
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3">

@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import { AppHeader } from "@/components/AppHeader";
 import { PRAYERS, Prayer } from "@/data/prayers";
-import { Bookmark, PenLine, Clock } from "lucide-react";
-import { OrnateDivider, EightStar } from "@/components/Ornaments";
+import { Bookmark, PenLine } from "lucide-react";
+import { OrnateDivider, EightStar, KhatimSeal } from "@/components/Ornaments";
+import { CountdownArc } from "@/components/CountdownArc";
+import { NamesMarquee } from "@/components/NamesMarquee";
 
 export const Route = createFileRoute("/today")({
   head: () => ({
@@ -16,6 +19,17 @@ export const Route = createFileRoute("/today")({
 });
 
 function NextPrayerHero({ p }: { p: Prayer }) {
+  // Mock countdown — ticks down from 42 minutes to show the live arc.
+  const total = 42 * 60;
+  const [remain, setRemain] = useState(total);
+  useEffect(() => {
+    const t = setInterval(() => setRemain((r) => (r > 0 ? r - 1 : total)), 1000);
+    return () => clearInterval(t);
+  }, []);
+  const mins = Math.floor(remain / 60);
+  const secs = remain % 60;
+  const progress = 1 - remain / total;
+
   return (
     <section
       className="relative mx-5 rounded-[28px] p-6 overflow-hidden border border-gold/30 animate-fade-up"
@@ -28,32 +42,36 @@ function NextPrayerHero({ p }: { p: Prayer }) {
     >
       <EightStar
         size={180}
-        className="absolute -top-8 -right-12 text-gold opacity-10"
+        className="absolute -top-8 -right-12 text-gold opacity-10 animate-spin-slow"
       />
       <div className="relative">
         <div className="flex items-center justify-between">
           <span className="text-[10px] uppercase tracking-[0.3em] text-gold-deep font-display">
             Next Prayer · الصلاة القادمة
           </span>
-          <span className="flex items-center gap-1.5 text-[11px] text-gold">
-            <Clock className="h-3 w-3" />
-            in 42 min
+          <span className="font-arabic text-sm text-gold-soft" dir="rtl">
+            بعد قليل
           </span>
         </div>
 
-        <div className="mt-4 flex items-end justify-between">
-          <div>
-            <p className="text-4xl">{p.emoji}</p>
+        <div className="mt-5 flex items-center justify-between gap-4">
+          <div className="flex-1">
+            <p className="text-3xl">{p.emoji}</p>
             <h2 className="mt-2 font-display text-3xl text-gold-bright font-semibold tracking-wide">
               {p.name}
             </h2>
-          </div>
-          <div className="text-right">
-            <p className="font-arabic text-4xl text-gold gold-text-glow" dir="rtl">
+            <p className="font-arabic text-2xl text-gold mt-0.5" dir="rtl">
               {p.arabic}
             </p>
-            <p className="font-display text-2xl text-gold-soft mt-1">{p.time}</p>
+            <p className="font-display text-xl text-gold-soft mt-2">{p.time}</p>
           </div>
+          <CountdownArc
+            size={120}
+            stroke={6}
+            progress={progress}
+            label={`${mins}:${String(secs).padStart(2, "0")}`}
+            sublabel="Remaining"
+          />
         </div>
 
         <OrnateDivider className="mt-5" />
@@ -158,6 +176,15 @@ function TodayScreen() {
         <div className="px-5">
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] uppercase tracking-[0.28em] text-gold-deep font-display">
+              Asma Al-Husna · أسماء الله الحسنى
+            </span>
+          </div>
+          <NamesMarquee />
+        </div>
+
+        <div className="px-5">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[10px] uppercase tracking-[0.28em] text-gold-deep font-display">
               All Prayers · جميع الصلوات
             </span>
             <span className="font-arabic text-sm text-muted-sage" dir="rtl">
@@ -171,8 +198,8 @@ function TodayScreen() {
           </div>
         </div>
 
-        <div className="px-5 pt-2">
-          <OrnateDivider />
+        <div className="px-5 pt-2 flex flex-col items-center">
+          <KhatimSeal size={56} className="text-gold opacity-70 animate-spin-slow" />
           <p className="text-center text-[10px] uppercase tracking-[0.22em] text-muted-sage/60 mt-3 font-display">
             وَأَقِمِ الصَّلَاةَ لِذِكْرِي
           </p>
