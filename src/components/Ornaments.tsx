@@ -122,6 +122,41 @@ export function PatternBackdrop({ className = "" }: { className?: string }) {
   );
 }
 
+/** Khatim — circular medallion seal (like end-of-juz' marker). */
+export function KhatimSeal({
+  className = "",
+  size = 64,
+}: {
+  className?: string;
+  size?: number;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      className={className}
+      aria-hidden
+    >
+      <g stroke="currentColor" fill="none" strokeWidth="0.7" opacity="0.85">
+        <circle cx="50" cy="50" r="46" />
+        <circle cx="50" cy="50" r="40" opacity="0.6" />
+        <circle cx="50" cy="50" r="22" />
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i * Math.PI * 2) / 12;
+          const x1 = 50 + Math.cos(a) * 22;
+          const y1 = 50 + Math.sin(a) * 22;
+          const x2 = 50 + Math.cos(a) * 40;
+          const y2 = 50 + Math.sin(a) * 40;
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} opacity="0.5" />;
+        })}
+        <path d="M50 36 L60 50 L50 64 L40 50 Z" />
+      </g>
+      <circle cx="50" cy="50" r="3" fill="currentColor" />
+    </svg>
+  );
+}
+
 /** Decorative bracket frame around content (like a mushaf border). */
 export function FrameCorners({ className = "" }: { className?: string }) {
   return (
