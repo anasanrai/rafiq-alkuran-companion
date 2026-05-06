@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { PhoneShell } from "@/components/PhoneShell";
-import { EightStar, OrnateDivider, PatternBackdrop } from "@/components/Ornaments";
+import { EightStar, OrnateDivider, PatternBackdrop, KhatimSeal } from "@/components/Ornaments";
 import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -26,11 +26,37 @@ function LoginScreen() {
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => navigate({ to: "/today" }), 700);
+    setTimeout(() => navigate({ to: "/today" }), 1400);
   };
 
   return (
     <PhoneShell>
+      {/* Splash overlay */}
+      {loading && (
+        <div
+          className="absolute inset-0 z-50 flex flex-col items-center justify-center animate-fade-up"
+          style={{
+            background:
+              "radial-gradient(circle at center, oklch(0.22 0.028 155) 0%, oklch(0.10 0.018 155) 70%)",
+          }}
+        >
+          <div className="relative">
+            <KhatimSeal size={140} className="text-gold animate-spin-slow" />
+            <span
+              className="absolute inset-0 flex items-center justify-center text-5xl"
+              style={{ filter: "drop-shadow(0 0 24px oklch(0.78 0.13 85 / 0.8))" }}
+            >
+              📿
+            </span>
+          </div>
+          <p className="mt-8 font-arabic text-2xl gold-text-shimmer" dir="rtl">
+            بسم الله
+          </p>
+          <p className="mt-2 text-[10px] uppercase tracking-[0.32em] text-gold-deep font-display">
+            Preparing your companion
+          </p>
+        </div>
+      )}
       <div className="absolute inset-0 flex flex-col px-7 pt-20 pb-10 overflow-hidden">
         {/* Ambient gold glow */}
         <div
