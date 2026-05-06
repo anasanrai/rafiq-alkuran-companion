@@ -79,6 +79,9 @@ function ProfileScreen() {
           </div>
         </div>
 
+        {/* Tasbih */}
+        <Tasbih />
+
         {/* Stats */}
         <div className="grid grid-cols-2 gap-3">
           {stats.map((s, i) => (
